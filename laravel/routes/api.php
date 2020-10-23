@@ -18,5 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('login', 'Auth\AuthController@login');
-Route::post('register', 'Auth\AuthController@register');
+Route::group([
+    'prefix' => 'auth',
+    'name' => 'auth',
+    'namespace' => 'Auth'
+], function () {
+    Route::post('/login', 'AuthController@login')->name('login');
+    Route::post('/register', 'AuthController@register')->name('register');
+});

@@ -27,8 +27,13 @@ class AuthController extends Controller
         // $credentials['deleted_at'] = null;
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+            return response()->json([
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'success' => true,
+                'access_token' => $user->createToken('MyApp')->accessToken,
+            ], $this->successStatus);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }
